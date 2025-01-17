@@ -1,0 +1,17 @@
+---
+- name: Installing Apache on 2 Ubuntu Virtual machines
+  hosts: all
+  become: yes  # Enables privilege escalation
+  tasks:
+    - name: Installing Latest version of apache
+      apt:
+        name: apache2
+        state: latest
+      notify:
+        - apache
+
+  handlers:
+    - name: apache
+      service:
+        name: apache2
+        state: started
