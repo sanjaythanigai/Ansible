@@ -1,0 +1,56 @@
+---
+- name: Installing Python
+  hosts: all
+  become: yes  # Enables privilege escalation
+  tasks:
+    - name: Installing Latest version of Python
+      apt:
+        name: python3
+        state: latest
+    - name: Installing Latest version of apache
+      apt:
+        name: apache2
+        state: latest
+      notify:
+        - apache
+    - name: Install Git
+      apt:
+        name: git
+        state: present
+    - name: Deploy website
+      copy:
+        src: /var/www/html/about.html
+        dest: /var/www/html
+    - name: Deploy website
+      copy:
+        src: /var/www/html/blog.html
+        dest: /var/www/html
+    - name: Deploy website
+      copy:
+        src: /var/www/html/class.html
+        dest: /var/www/html
+    - name: Deploy website
+      copy:
+        src: /var/www/html/css
+        dest: /var/www/html
+    - name: Deploy website
+      copy:
+        src: /var/www/html/images
+        dest: /var/www/html - name: Deploy website
+      copy:
+        src: /var/www/html/js
+        dest: /var/www/html
+    - name: Deploy website
+      copy:
+        src: /var/www/html/index.html
+        dest: /var/www/html
+
+    - name: Set file permissions for Apache
+      file:
+        path: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: '0755'
+        recurse: yes
+        state: directory
+    
